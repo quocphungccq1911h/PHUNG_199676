@@ -6,7 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add database context and cache
 builder.Services.AddDbContext<MyDatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PHUNG_199676")));
-builder.Services.AddDistributedMemoryCache();
+//builder.Services.AddDistributedMemoryCache();
+builder.Services.AddStackExchangeRedisCache(option =>
+{
+    option.Configuration = builder.Configuration.GetConnectionString("AZURE_REDIS_CONNECTIONSTRING");
+    option.InstanceName = "SampleInstance";
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
